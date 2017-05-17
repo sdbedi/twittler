@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jquery.js"></script>
+    <script src="data_generator.js"></script>
+  <style>
+    h1 {    background-color: white;
+      text-align: center;
+      width: 450px;
+      border: 5px solid black;
+      padding: 25px;
+      margin-right: auto;
+      margin-left: auto;};
+      .center {
+      margin: auto;
+      width: 50%;
+      border: 3px solid gray;
+      padding: 10px;
+      }
+
+    p {
+     text-align:  center;
+    }
+    
+    h2 {    background-color: white;
+      text-align: center;
+      width: 200px;
+      border: 5px solid red;
+      padding: 25px;
+      margin-left: 225px;
+    }
+
+    .button{
+      margin-left: 305px;
+    }
+    .refresh{
+      margin-left: 310px;
+    }
+    div {
+      width: 600px;
+      border: 5px solid blue;
+      padding: 25px;
+      margin: 25px;
+    };
+
+</style>
+  </head>
+  <body>
+    <h1>Twittler: Do More, Know Less.</h1>
+
+    <p>You don't have anything better to do.</p>
+
+    <h2>My Twitstream</h2>
+
+    <form>
+      <input TYPE="button" class= "refresh" onClick="history.go(0)" VALUE="Twit Harder!">
+    </form>
+
+    <script>
+
+      $(document).ready(function(){ //create some stuff
+          var $body = $('body');
+          var $h1 = $('h1');
+          var $p = $('p');
+          var $h2 = $('h2');
+          
+          $('button').click(function() {
+            location.reload();
+          });
+
+
+          var index = streams.home.length - 1;
+
+          while(index >= 0){
+            var tweet = streams.home[index];
+            var $tweet = $('<div class=' + tweet.user + '></div>');
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + '. ' + tweet.created_at); //added the created at value from the js file for time info
+            $tweet.appendTo($body);
+
+            $('div').on('click',function(){  
+              $body.html('');
+              $h2.text('@' + this.getAttribute('class') + "'s    Twits");  
+              $h1.appendTo($body);
+              $p.appendTo($body);
+              $h2.appendTo($body);
+              var $twitsBtn = $('<button class="button"></button>'); //need to create another button
+              $twitsBtn.text('Back to Twits'); 
+              $twitsBtn.appendTo($body);  
+
+              $('button').click(function() { 
+                location.reload();
+              });
+
+              var twidiot = this.getAttribute('class');  
+              var i = streams.users[twidiot].length-1;   
+              while (i>=0){   
+                var twit = streams.users[twidiot][i];
+                var $twit = $('<div></div>');
+                $twit.text('@' + twidiot + ': ' + twit.message + '. ' + twit.created_at);
+                $twit.appendTo($body);
+                i -= 1;
+              }
+            });   
+
+              index -= 1;
+          }
+
+      });
+
+    </script>
+  </body>
+</html>
